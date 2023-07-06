@@ -561,9 +561,9 @@
           
         </div>
       </footer>
-      <!-- partial -->
+    
     </div>
-    <!-- main-panel ends -->
+  
   </div>
 </div>
 <script src="https://www.tutorialspoint.com/jquery/jquery-3.6.0.js"></script>
