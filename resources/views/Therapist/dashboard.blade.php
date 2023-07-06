@@ -454,8 +454,7 @@
                             <th style="color:white"><b>Athelete</b></th>
                             <th style="color:white"><b>Start Time</b></th>
                             <th style="color:white"><b>End  Time</b></th>
-                         
-                          </tr>
+                       </tr>
                         </thead>  
                         <tbody>
                           @php   $events = App\Models\Booking::with('Athlete')->where('therapist_id',\Auth::guard('therapist')->user()->id)->whereDate('date', date('Y-m-d'))
