@@ -475,9 +475,7 @@
                       </table>
                     </div>
                   </div>
-                  <!-- <div class="col-md-7">
-                    <div id="audience-map" class="vector-map"></div>
-                  </div> -->
+                
                 </div>
               </div>
             </div>
