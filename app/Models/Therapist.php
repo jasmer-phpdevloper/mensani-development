@@ -12,6 +12,7 @@ class Therapist extends Authenticatable implements JWTSubject
 {  
     use SoftDeletes;
     use HasFactory;
+    protected $appends = ['image'];
     protected $guard = 'api';
     protected $table = 'therapists';
 
@@ -26,6 +27,13 @@ class Therapist extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     } 
+
+    public function getImageAttribute($image)
+    {   
+       return  $image ?: 'https://img.icons8.com/fluency/48/gender-neutral-user.png';
+    }
+
+   
     
   
 }

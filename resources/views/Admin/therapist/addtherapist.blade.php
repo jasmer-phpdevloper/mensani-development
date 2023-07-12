@@ -136,7 +136,18 @@ body, html {
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Experience <span style="color:red;">*</span></label>
-          <input type="number" min="1" class="form-control" name="experience" value="{{old('experience')}}" placeholder="Enter Experience">
+          
+          <select class="form-control" name="experience" >
+                   
+                     <option value="< 6 month" {{ old("experience") == '< 6 month' ? 'selected' : '' }}>< 6 month</option>
+                     <option value="1 year"  {{ old("experience") == '1 year' ? 'selected' : '' }}>1 year</option>
+                     <option value="2 year" {{ old("experience") == '2 year' ? 'selected' : '' }}>2 year</option>
+                     <option value="3 year"  {{ old("experience") == '3 year' ? 'selected' : '' }}>3 year</option>
+                     <option value="4 year" {{ old("experience") == '4 year' ? 'selected' : '' }}>4 year</option>
+                     <option value="5+ year" {{ old("experience") == '5+ year' ? 'selected' : '' }}>5+ year</option>
+                   
+                   </select>
+       
         </div>
         <div class="form-group">
           <label for="exampleInputName1">License <span style="color:red;">*</span></label>

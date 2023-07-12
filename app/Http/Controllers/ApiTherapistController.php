@@ -39,7 +39,8 @@ class ApiTherapistController extends Controller
             'data'=>$x
         ]);       
        }
-       $data =  Therapist::get();
+       $data =  Therapist::select('id','name','email','image','phone','experience','image','hourly_rate','degree','license','sport','pro_user','completed','active_client','status')
+       ->orderby('id','desc')->get();
     //    $data = DB::table('supports')->where('user_type','Therapist')->select('id','title','thumbnail','price','video','support_type','user_id')->orderby('id','desc')->get();
     //    foreach($data as $value){
     //     $count = DB::table('support_counts')->where('video_id',$value->id)->count();
@@ -80,8 +81,14 @@ class ApiTherapistController extends Controller
         ]);       
        }
 
-       $data['therapist_profile'] =  Therapist::where('id',$request->therapist_id)->first();
-	   $data['therapist_review'] =   ReviewFeedback::with('Athlete')->where('therapist_id',$request->therapist_id)->orderBy('id','desc')->get();
+       
+
+       $data['therapist_profile'] =  Therapist::
+        select('id','name','email','image','phone','experience','image','hourly_rate','degree','license','sport','pro_user','completed','active_client','status')
+       ->where('id',$request->therapist_id)->first();
+	   $data['therapist_review'] =   ReviewFeedback::with(['Athlete' => function ($query) {
+        $query->select('id','name','email','image');
+    }])->where('therapist_id',$request->therapist_id)->orderBy('id','desc')->get();
 
        if($data)
        {
@@ -147,6 +154,7 @@ class ApiTherapistController extends Controller
            // DB::table('slot_time')->where('appointment_id',$appointments->id)->delete();
             $slots = ApiTherapistController::getTimeSlot(60,$startTime1->format('H:i'),$endTime1->format('H:i'),$appointments->therapist_id,$appointments->id,$request->date);
            
+            //dd($slots);
             $data = Appointment::where('day',$day)->where('therapist_id',$request->therapist_id)->first();
             $data['time_slot'] =  $slots;
             return response()->json([
@@ -168,6 +176,126 @@ class ApiTherapistController extends Controller
        
       
     }
+
+    public function therapist_appointment_slot_new(Request $request)
+    {
+      
+        $x = new stdClass();
+       
+        $therapist =  auth('api')->authenticate($request->bearerToken());
+   
+        if(!$therapist){
+            return response()->json([
+                'status'=>'2',
+                'message'=>"Token is mismatch",
+                'data'=>$x
+            ]);       
+        }
+
+        $validator = Validator::make($request->all(), [            
+            'therapist_id' => 'required',
+            'date' => 'required',
+          
+        ]);
+        
+        if ($validator->fails()) { 
+           
+             return response()->json([
+                'status'=>'0',
+                'message'=>$validator->errors()->first(),
+                'data'=>$x
+            ]);           
+         }
+
+        $day = strtotime($request->date);
+        $day = date('l', $day);
+
+        //dd($day);
+
+        $appointments =  DB::table('appointments')->where('day',$day)->WhereNotNull(['start_time','end_time'])->where('therapist_id',$request->therapist_id)->first();
+        if (!empty($appointments)){
+            $startTime1 = new \DateTime($appointments->start_time);
+            $endTime1 = new \DateTime($appointments->end_time);
+
+            $timeIn24HourFormatStartTime = $startTime1->format('H:i');
+            $timeIn24HourFormatEndTime = $endTime1->format('H:i');
+           // DB::table('slot_time')->where('appointment_id',$appointments->id)->delete();
+            $slots = ApiTherapistController::getTimeSlots(60,$startTime1->format('H:i'),$endTime1->format('H:i'),$appointments->therapist_id,$appointments->id,$request->date);
+           
+           // dd($slots);
+            $data = Appointment::where('day',$day)->where('therapist_id',$request->therapist_id)->first();
+            $data['time_slot'] =  $slots;
+            return response()->json([
+                'status'=>'1',
+                'message'=>'slot time',
+                'data'=> $data,
+            ]);   
+
+        }else{
+            return response()->json([
+                'status'=>'0',
+                'message'=>'Therapist has not created slots for this date yet',
+                'data'=> [],
+            ]); 
+
+
+        }
+
+       
+      
+    }
+   
+    function getTimeSlots($interval, $start_time, $end_time,$therapist_id,$appointments_id,$date)
+    {
+         $start = new DateTime($start_time);
+         $end = new DateTime($end_time);
+         $startTime = $start->format('H:i');
+         $endTime = $end->format('H:i');
+         $i=0;
+         $time = [];
+         $data='';
+         while(strtotime($startTime) <= strtotime($endTime)){
+             $start = $startTime;
+             $end = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
+             $startTime = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
+             $i++;
+             if(strtotime($startTime) <= strtotime($endTime)){
+
+                $booking = DB::table('booking')
+                ->where('therapist_id',$therapist_id)
+                //->where('appointment_id',$appointments_id)
+                ->where('start_time',$start)
+                ->where('end_time',$end)
+                ->whereDate('date', $date)
+                ->first();
+               // dd($appointments_id);
+                if(!empty($booking)){
+
+                    $booking= 1;
+
+                 }else{
+                
+                    $booking= 0;
+
+
+                 }
+
+                 $data=[
+                    'slot_start_time' => $start,
+                    'slot_end_time' => $end,
+                     'therapist_id' => $therapist_id,
+                    'appointments_id' => $appointments_id,
+                     'booking'=>$booking
+                 ];
+                 $time[] = $data; 
+ 
+ 
+ 
+             }
+         }
+         return $time;
+    }
+ 
 
     function getTimeSlot($interval, $start_time, $end_time,$therapist_id,$appointments_id,$date)
    {

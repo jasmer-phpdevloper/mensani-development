@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
           <label for="exampleInputName1">Thumbnail</label>
-          <input type="file" class="form-control" id="thumbnail" name="thumbnail" >
+          <input type="file" class="form-control" id="thumbnail" name="thumbnail"  accept="image/png, image/gif, image/jpeg , image/jpg" >
         </div>
         <input type="hidden"  id="thumbnail" name="oldthumbnail" value="{{$support->thumbnail}}">
         <img src="{{$support->thumbnail}}" style="height:50px;width:50px;">

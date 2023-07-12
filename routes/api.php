@@ -64,6 +64,7 @@ Route::get('view_therapist_support',[ApiTherapistController::class,'view_support
 Route::post('therapist_profile',[ApiTherapistController::class,'profile']);
 Route::post('therapist_for_review',[ApiAthleteController::class,'therapist_for_review']);
 Route::post('therapist_appointment_slot',[ApiTherapistController::class,'therapist_appointment_slot']);  
+Route::post('therapist_appointment_slot_new',[ApiTherapistController::class,'therapist_appointment_slot_new']); 
 Route::post('booking',[ApiTherapistController::class,'booking']);  
 
 Route::post('therapist_support_video',[ApiTherapistController::class,'therapist_support_video']);  

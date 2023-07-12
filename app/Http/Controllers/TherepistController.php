@@ -415,7 +415,7 @@ class TherepistController extends Controller
               $path = storage_path().'/support_thumbnail/';
               File::makeDirectory($path, $mode = 0777, true, true);
               $imagePath = storage_path().'/support_thumbnail/';         
-              $post_image        = time().$file->getClientOriginalName();
+              $post_image        = time().'.'.$file->getClientOriginalName();
               $image_url          = url('/').'/storage/support_thumbnail/'.'/'. $post_image;   
               $file->move($imagePath, $post_image);
           }
@@ -432,7 +432,7 @@ class TherepistController extends Controller
               $path = storage_path().'/supportvideo/';
               File::makeDirectory($path, $mode = 0777, true, true);
               $imagePath = storage_path().'/supportvideo/';         
-              $post_image        = time().$file->getClientOriginalExtension();
+              $post_image        = time().'.'.$file->getClientOriginalExtension();
               $image_url          = url('/').'/storage/supportvideo/'.'/'. $post_image;   
               $file->move($imagePath, $post_image);
           }
@@ -495,8 +495,18 @@ class TherepistController extends Controller
               return view('Therapist.view_support');
       }
       public function deletesupport($id)
-      {
-        DB::table('supports')->where('id',$id)->delete();
+      { 
+        $supports = DB::table('supports')->where('id', $id)->first();
+        $fileUrl = $supports->video;
+        $fileName = basename($fileUrl);
+      
+        $directory = storage_path('supportvideo').'/'.$fileName; // Replace with the actual directory path where files are stored
+       
+        $files = File::delete($directory);
+    
+        DB::table('supports')->where('id', $id)->delete();  
+         
+
         return redirect()->back()->with('message', 'Content deleted successfully');
       }
       public function editsupport($id)

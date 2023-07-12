@@ -23,6 +23,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -976,7 +978,17 @@ class AdminController extends Controller
       }
       public function deletesupport($id)
       {
-        DB::table('supports')->where('id',$id)->delete();
+        $supports = DB::table('supports')->where('id', $id)->first();
+        $fileUrl = $supports->video;
+        $fileName = basename($fileUrl);
+      
+        $directory = storage_path('supportvideo').'/'.$fileName; // Replace with the actual directory path where files are stored
+       
+        $files = File::delete($directory);
+    
+        DB::table('supports')->where('id', $id)->delete();  
+          // User and associated files deleted successfully
+     
         return redirect()->back();
       }
       public function editsupport($id)

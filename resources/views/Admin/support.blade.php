@@ -81,7 +81,7 @@
         </div>
         <div class="form-group">
           <label class="InputName" for="exampleInputName1">Thumbnail</label>
-          <input type="file" class="form-control" id="thumbnail" name="thumbnail" >
+          <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/png, image/gif, image/jpeg , image/jpg"  >
         </div>
         <div class="form-group">
         <input type="radio" id="free" name="price" value="Free">

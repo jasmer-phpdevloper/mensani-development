@@ -8,12 +8,45 @@
  .sidebar {
   overflow-y: scroll;
     width: 20% !important;
-    height: 120%;
+    height: 100vh;
   }
+
+  .card {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+
+
+.time-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.time-btn p {
+  margin: 0;
+}
+
+h6 {
+  margin-bottom: 0;
+}
+
+.text-muted {
+  color: #777777;
+}
+
+.font-weight-normal {
+  font-weight: normal;
+}
 
 
 </style>
 @section('main_section')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <div class="container-scroller">
 <div class="container-fluid page-body-wrapper">
@@ -35,10 +68,18 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="time-btn">
-                    <p>Date - {{ date('l') }} </p>  
-                    <p>Date - {{ date('d-m-Y') }} </p>
-                    <p>Start time - {{$todayAvailbelityTime->start_time ?? "00:00" }} </p>
-                    <p>End time - {{$todayAvailbelityTime->end_time ?? "00:00" }} </p>
+                    <p>
+                    <i class="fas fa-calendar-alt"></i>
+                    {{ date('l') }}, {{ date('M, d, Y') }}
+                  </p> 
+                    <p>
+                    <i class="fas fa-play-circle"></i> <!-- Icon for start time -->
+                    {{ $todayAvailbelityTime->start_time ?? "00:00" }}
+                    <i class="fas fa-long-arrow-alt-right"></i> <!-- Icon for arrow -->
+                    {{ $todayAvailbelityTime->end_time ?? "00:00" }}
+                    <i class="fas fa-stop-circle"></i> <!-- Icon for end time -->
+                  </p>
+                  
 
                       {{-- <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p> --}}
                     </div>
