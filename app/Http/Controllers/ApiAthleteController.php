@@ -166,6 +166,61 @@ class ApiAthleteController extends Controller
     
        
     }
+
+    public function  delete_athlete_account(Request $request){
+    //  $athlete =  auth('api')->authenticate($request->bearerToken());
+    // //    dd( $athlete);
+    //    if(!$athlete){
+    //     return response()->json([
+    //         'status'=>'2',
+    //         'message'=>"Token is mismatch",
+    //         'data'=>$x
+    //     ]);       
+    //    }
+
+       $x = new stdClass();
+       $validator = Validator::make($request->all(), [            
+        'athlete_id' => 'required',
+       
+       ]);
+    
+    if ($validator->fails()) { 
+       
+         return response()->json([
+            'status'=>'0',
+            'message'=>$validator->errors()->first(),
+            'data'=>$x
+        ]);           
+     }
+       $data = DB::table('start_selftalks')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('start_goals')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('self_talks')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('post_performances')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('points')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('notifications')->where('athlete_id',$request->athlete_id)->delete();
+    
+       $data = DB::table('dreams_goals')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('booking')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('post_improvements')->where('athlete_id',$request->athlete_id)->delete();
+       $data = DB::table('visualizations')->where('athlete_id',$request->athlete_id)->delete();
+       
+       $data = DB::table('athletes')->where('id',$request->athlete_id)->delete();
+
+       return response()->json([
+        'status'=>'1',
+        'message' => 'Account delete successfully',
+     
+    ]);
+    }
+
+
+
+
+
+
+
+
+
     public function edit_profile(Request $request)
     {
         $x = new stdClass();
@@ -411,7 +466,7 @@ class ApiAthleteController extends Controller
         ]);       
        }
      
-       $data = DB::table('supports')->select('id','title','thumbnail','price','video','support_type')->whereNull('user_type')->orderby('id','desc')->get();
+       $data = DB::table('supports')->select('id','title','thumbnail','price','video','support_type')->whereNull('user_type')->where('user_id',1)->orderby('id','desc')->get();
        foreach($data as $value){
         $count = DB::table('support_counts')->where('video_id',$value->id)->count();
         $value->count = $count; 
@@ -855,13 +910,14 @@ class ApiAthleteController extends Controller
       
        if($request->hasfile('recording'))
        {
-           $file = $request->recording;
+          $file = $request->file('recording');
            $path = storage_path().'/athletevoice/';
            File::makeDirectory($path, $mode = 0777, true, true);
            $imagePath = storage_path().'/athletevoice/';         
-           $post_image        = time().$file->getClientOriginalExtension();
+           $post_image        = time().'.'.$file->getClientOriginalExtension();
            $image_url          = url('/').'/storage/athletevoice/'.'/'. $post_image;   
            $file->move($imagePath, $post_image);
+
        }
        if($request->recording){
        $selftalk['recording']= $image_url;

@@ -44,6 +44,17 @@ label {
     background-color: #2A3038 !important;
    
 }
+ #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3) url("{{ url('public/assets/images/Spin-1.4s-78px.gif') }}") no-repeat center center;
+        z-index: 10000;
+    }
     </style>
 @section('main_section')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -73,6 +84,7 @@ label {
         </div>
         <div class="text-center">
         <button type="submit" class="btn btn-primary w-25">Submit</button>
+              <div id="loader" style="display:none;" style="color:white"></div>
         </div>
       </form>
     </div>
@@ -95,7 +107,7 @@ $('.js-example-basic-multiple').select2();
       event.preventDefault();
     
      const fd = $('#form').serialize();
-    
+      $("#loader").attr("style", "display:block");
      $.ajax({
        type: "POST",
         url: "{{url('Admin/savepoints')}}",
@@ -109,7 +121,7 @@ $('.js-example-basic-multiple').select2();
         
              if(data.status == 1)
             {
-           
+              $("#loader").attr("style", "display:none");
               Swal.fire(
                 'Good job!',
                 'Point Updated!',
@@ -118,7 +130,8 @@ $('.js-example-basic-multiple').select2();
               location.reload();
             }
             if(data.status == 0)
-            {
+            { 
+              $("#loader").attr("style", "display:none");
               toastr["error"](data.message, "Error");
             }
         },

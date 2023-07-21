@@ -40,7 +40,7 @@ class ApiTherapistController extends Controller
         ]);       
        }
        $data =  Therapist::select('id','name','email','image','phone','experience','image','hourly_rate','degree','license','sport','pro_user','completed','active_client','status')
-       ->orderby('id','desc')->get();
+       ->where('status',1)->orderby('id','desc')->get();
     //    $data = DB::table('supports')->where('user_type','Therapist')->select('id','title','thumbnail','price','video','support_type','user_id')->orderby('id','desc')->get();
     //    foreach($data as $value){
     //     $count = DB::table('support_counts')->where('video_id',$value->id)->count();
@@ -84,7 +84,7 @@ class ApiTherapistController extends Controller
        
 
        $data['therapist_profile'] =  Therapist::
-        select('id','name','email','image','phone','experience','image','hourly_rate','degree','license','sport','pro_user','completed','active_client','status')
+        select('id','name','email','image','phone','experience','hourly_rate','degree','license','sport','pro_user','completed','active_client','status')
        ->where('id',$request->therapist_id)->first();
 	   $data['therapist_review'] =   ReviewFeedback::with(['Athlete' => function ($query) {
         $query->select('id','name','email','image');
@@ -246,7 +246,7 @@ class ApiTherapistController extends Controller
     }
    
     function getTimeSlots($interval, $start_time, $end_time,$therapist_id,$appointments_id,$date)
-    {
+    {   
          $start = new DateTime($start_time);
          $end = new DateTime($end_time);
          $startTime = $start->format('H:i');
@@ -260,7 +260,7 @@ class ApiTherapistController extends Controller
              $startTime = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
              $i++;
              if(strtotime($startTime) <= strtotime($endTime)){
-
+              //  dd($date);
                 $booking = DB::table('booking')
                 ->where('therapist_id',$therapist_id)
                 //->where('appointment_id',$appointments_id)
@@ -268,7 +268,7 @@ class ApiTherapistController extends Controller
                 ->where('end_time',$end)
                 ->whereDate('date', $date)
                 ->first();
-               // dd($appointments_id);
+               
                 if(!empty($booking)){
 
                     $booking= 1;
@@ -374,12 +374,21 @@ class ApiTherapistController extends Controller
         }
 
 
-        $data['booking'] = Booking::with('Therapist')
+        // $data['booking'] = Booking::with('Therapist')
+        // ->where('athlete_id',$request->athlete_id)
+        // ->get();
+        // $data['athletes'] = DB::table('athletes')
+        // ->where('id',$request->athlete_id)
+        // ->first();
+
+      
+        $data['booking'] = Booking::select('id','start_time','end_time','date','appointment_id','therapist_id','athlete_id')
         ->where('athlete_id',$request->athlete_id)
         ->get();
-        $data['athletes'] = DB::table('athletes')
-        ->where('id',$request->athlete_id)
-        ->first();
+       // dd($data['booking']);
+        // $data['athletes'] = DB::table('athletes')
+        // ->where('id',$request->athlete_id)
+        // ->first();
 
         return response()->json([
             'status'=>'1',

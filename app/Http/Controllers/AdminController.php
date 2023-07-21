@@ -296,10 +296,11 @@ class AdminController extends Controller
                             $result = $this->push_notification($device_token,$devtype,$req_status,$badge,$title,$description);   
                           }
                         }else{
-                          $user = DB::table('athletes')->where('fcm_token','!=','')->where('device_type','!=','')->where('id',$athlete)->first();
+                          $user = DB::table('athletes')->where('id',$athlete)->first();
                         
                           $device_token = $user->fcm_token ?? '';
                           $devtype   = $user->device_type ?? '';
+
                           $badge = '0';
                           $title = $request->title;
                           $req_status="1";
@@ -339,8 +340,8 @@ class AdminController extends Controller
 
       $url = 'https://fcm.googleapis.com/fcm/send';
       $api_key = 'AAAA4kDkKnY:APA91bFaAZzdgY42phw85t6_v2Vvqny7DkCuT-4957-KRicxgSU9k4TYacoEtTcZGV3CUoPsP8tm4narlOvTjooP5RyR5RzxWD7XhL4ilPp1AtdoXP56WaP3BFSaPuEgMKu56lxYKkG9';
-
-      if($devtype ==1){
+     
+      if($devtype == 1){
         $fields = (object) [
               "to" =>$device_token,
                "notification" => (object) [
@@ -366,6 +367,8 @@ class AdminController extends Controller
               ]
         ];
       }else{
+
+     
         $fields = (object) [
               "to" =>$device_token,
                "notification" => (object) [
@@ -408,7 +411,7 @@ class AdminController extends Controller
           die('FCM Send Error: ' . curl_error($ch));
       }
       curl_close($ch);
-     //  dd($result);
+     
       return $result;
 }
       public function view_notification(Request $request)
@@ -1107,7 +1110,7 @@ class AdminController extends Controller
           $plan['description'] = $request->get('description');          
           $plan['from_time'] = $request->get('from_time');
           $plan['to_time'] = $request->get('to_time');
-          if($request->get('from_date') < $request->get('to_date')){
+          if($request->get('from_date') <= $request->get('to_date')){
             $plan['from_date'] = $request->get('from_date');
             $plan['to_date'] = $request->get('to_date');
           }else{
@@ -1581,7 +1584,20 @@ class AdminController extends Controller
              "date" => $request->date,
              "appointment_id" => $request->appointment_id,
            ]);
-          
+
+        // $currentDateTime = now()->format('Y-m-d H:i:s');  
+        // $FuturebookingCount= \DB::table('booking')->select('athlete_id')
+        // ->where('therapist_id',$request->therapist_id)
+        // ->whereRaw(\DB::raw("CONCAT(`date`, ' ', `start_time`) > '{$currentDateTime}'"))
+        // ->get()->unique('athlete_id');
+
+        // $PastbookingCount= \DB::table('booking')
+        // ->where('therapist_id',$request->therapist_id)
+        // ->whereRaw(DB::raw("CONCAT(`date`, ' ', `end_time`) < '{$currentDateTime}'"))
+        // ->get()->unique('athlete_id');
+      
+        // \DB::table('therapists')->where('id',$this->id)->update(['active_client'=>count($FuturebookingCount),'completed'=>count($PastbookingCount)]);
+
          }
          return Redirect::to("/success");  
          // return back();

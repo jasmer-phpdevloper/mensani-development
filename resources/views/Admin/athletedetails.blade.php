@@ -1,6 +1,6 @@
 @extends('Admin.layouts.App')
-@section('athletes','menu-open')
-@section('view_athletes','active')
+
+
 <head>
 </head>
 <style>
@@ -12,9 +12,7 @@
   div#show_services {
       margin-left: 14px;
   }
-  img#new_profile_image {
-      border: 1px solid black;
-  }
+
   /* section.content.second {
       margin-top: 74px !important;
   } */
@@ -46,13 +44,7 @@
       color: black;
       background-color: #ff7600;
   }
-  img#new_profile_image {
-    border-radius: 50%;
-    width: 125px;
-    height: 125px;
-    margin-top: -87px;
-    margin-left: 63px;
-  }
+
   b {
     font-weight: 500;
     color: black;
@@ -134,9 +126,7 @@
       font-size:1rem !important;
     }
 
-    .profile-info .table tr td{
-      width: 60%;
-    }
+   
     i.material-icons {
     margin-top: -5px;
 }
@@ -144,7 +134,30 @@
     background: #373944;
     border: 4px solid #5a5a5a;
 }
-
+img#new_profile_image {
+    position: absolute;
+    bottom: -57px;
+    left: 20px;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    max-width: 153px;
+    max-height: 130px;
+}
+.profile-info .table tr td {
+    width: 60%;
+    
+  /* white-space: pre-line;
+    word-break: break-all; */
+}
+ td {
+            max-width: 200px; /* Set the maximum width you want your table cells to occupy */
+          
+            white-space: nowrap; /* Optional - This prevents the content from wrapping to the next line */
+            text-overflow: ellipsis; /* Optional - This adds an ellipsis (...) at the end of the content if it overflows */
+            padding: 10px; /* Optional padding to give some space within the cells */
+            border: 1px solid black; /* Optional - Adds borders around the cells */
+        }
 </style>
 
   <!-- Content Wrapper. Contains page content -->
@@ -174,7 +187,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- /.card-body -->
-                <div class="row">
+                <div class="row position-relative">
                   <div class="first_row">
                    <div style="color: #d2b6f5;font-size: large;"> 
                    Name: {{$athlete->name}} <br>
@@ -187,15 +200,16 @@
                     </div>
                     @endif
                   </div>
+                  @if($athlete->image)
+                    <img src="{{$athlete->image}}" id="new_profile_image" align="center">
+                    @else
+                    <img src="{{asset('storage/athleteimg/1682921017cropped4102272193752535966.jpg')}}" id="new_profile_image" align="center">
+                    @endif
+                    <h4 class="d-inline ml-2 position-absolute" style="top:-15px;"><b></b></h4>
                 </div><br>
                 <div class="row">
                   <div class="col-9">
-                    @if($athlete->image)
-                    <img src="{{$athlete->image}}" id="new_profile_image">
-                    @else
-                    <img src="/public/logo/download.png" id="new_profile_image">
-                    @endif
-                    <h4 class="d-inline ml-2 position-absolute" style="top:-15px;"><b></b></h4>
+                  
                   </div>
                  
                 </div><br>
@@ -240,11 +254,11 @@
                     <b style="margin-left:2rem;color:white">Dreams Goals</b>
                   </h5>
                 </div>
-                <table class="table mt-2 mb-4">
+                <table class="table  mt-2 mb-4">
                   <tr>
                     <th>Dreams Goal:</th>
                     @if($dreamgoals)
-                    <td>{{$dreamgoals->dream_goal}}</td>
+                    <td  >{{$dreamgoals->dream_goal}}</td>
                     @else
                     <td></td>
                     @endif
@@ -363,31 +377,17 @@
     }).draw();
     
   } );
-  </script>
-  <script>
-    $(document).ready(function(){
-      // alert('hh');
-    $(window).on('load', function(){
+
+
+
+  $(document).ready(function() {
      
-      $(".nav-item").removeClass("active");
-      $(".nav-link ").removeClass("active");
-      $(".nav-link ").addClass("collapsed");
-      // $(".nav-link ").setAttribute("aria-expanded", "false");
-      $(".menu-items > div").removeClass("show");
-      $(".nav-item").closest('div').removeClass("show");
-      var show = $(".nav-item").closest('div').find(".show");
-    
-      if(show){
-        $(".nav-item").closest('div').removeClass("show");
-  
-      }else{
-        $(".nav-item").closest('div').removeClass("show");
-  
-      }
-   
-   
-    });
-  }); 
+      setTimeout(function () {
+        $(".menu-items").removeClass('active');
+        $(".collapse").removeClass('show');
+       }, 500)
+   });
+ 
    </script>   
   @endsection
   

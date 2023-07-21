@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Mensani</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{asset('/public/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/public/assets/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="/public/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/public/assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{asset('/public/assets/css/style.css')}}">
+    <link rel="stylesheet" href="/public/assets/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{asset('/public/assets/images/favicon.png')}}" />
+    <link rel="shortcut icon" href="/public/assets/images/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <style>
     .container-scroller .form-group .p_input {
@@ -50,7 +50,7 @@
             <div class="card col-lg-4 mx-auto" style="border-radius: 10px;">
               <div class="card-body px-5 py-5">
                 <div class="mensani" style="text-align: center;">
-                <img src="{{asset('/public/logo/mensani_logo.png')}}" alt="logo" style="height: 44px;width: 157px;" />
+                <img src="/public/logo/mensani_logo.png" alt="logo" style="height: 44px;width: 157px;" />
                 </div>
                 <h3 class="card-title text-left mb-3" style="text-align: center;">Login</h3>
                 <form method="POST" action="{{url('Admin/login')}}">
@@ -107,16 +107,16 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="{{asset('/public/assets/vendors/js/vendor.bundle.base.js')}}"></script>
+    <script src="/public/assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="{{asset('//public/assets/js/off-canvas.js')}}"></script>
-    <script src="{{asset('//public/assets/js/hoverable-collapse.js')}}"></script>
-    <script src="{{asset('//public/assets/js/misc.js')}}"></script>
-    <script src="{{asset('//public/assets/js/settings.js')}}"></script>
-    <script src="{{asset('//public/assets/js/todolist.js')}}"></script>
+    <script src="/public/assets/js/off-canvas.js"></script>
+    <script src="/public/assets/js/hoverable-collapse.js"></script>
+    <script src="/public/assets/js/misc.js"></script>
+    <script src="/public/assets/js/settings.js"></script>
+    <script src="/public/assets/js/todolist.js"></script>
     <!-- endinject -->
   </body>
 </html>

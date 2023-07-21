@@ -21,7 +21,12 @@ class ReviewFeedback extends Authenticatable
    
    public function Athlete()
    {
-    return $this->hasOne(Athlete::class,'id','athlete_id');
+    return $this->hasOne(Athlete::class,'id','athlete_id')->withDefault( [
+      'name' => 'Anonymous user',
+      'email' => 'Anonymous@gmail.com',
+      'image' => asset('storage/athleteimg/1682921017cropped4102272193752535966.jpg'),
+    ]);
+   
    }
 
    public function  getDurationAttribute(){

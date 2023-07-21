@@ -3,7 +3,7 @@
    <head>
       {{-- <title>How To Integrate Stripe Payment Gateway In Laravel 8 - Techsolutionstuff</title> --}}
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>      
    </head>
    <style>
@@ -16,13 +16,13 @@
     margin: auto;
     width: 100%;
 }
-   .credit-main {
+.container {
     width: 100%;
     max-width: 600px;
-    display: flex;
-    height: 100vh;
-    margin: auto;
-    padding: 0px 15px;
+    height: 100%;
+    margin: 20px auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .form-row.row {
     align-items: baseline;   
@@ -41,14 +41,13 @@ button.btn.btn-primary.btn-lg.btn-block {
     margin: 0 auto;
     margin-bottom: 15px;
 }
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
 
-   .credit-main {
-   
+   .container {
     height: auto;
-    padding: 30px 15px;
+     padding: 30px 15px; 
    }
-}
+} */
 
 
 #loader {
@@ -91,9 +90,7 @@ button.btn.btn-primary.btn-lg.btn-block {
 
    </style>   
    <body>
-      <div class="credit-main">         
-      
-        
+      <div class="container">         
                <div class="panel panel-default credit-card-box">
                   <div class="panel-heading" >
                      <div class="row-btn">

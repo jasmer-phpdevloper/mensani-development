@@ -35,6 +35,17 @@ body, html {
   
   overflow: initial !important;
 }  
+#loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3) url("{{ url('public/assets/images/Spin-1.4s-78px.gif') }}") no-repeat center center;
+        z-index: 10000;
+    } 
     </style>
 @section('main_section')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -48,7 +59,7 @@ body, html {
       
         <div class="form-group">
           <label for="exampleInputName1">Image</label>
-          <input type="file" class="form-control" id="image" name="image" >
+          <input type="file" class="form-control" id="image" name="image" accept="image/*">
         </div>
         <input type="hidden"  id="image" name="oldimage" value="{{$plan->image}}">
         <img src="{{$plan->image}}" style="height: 50px;width:50px;">
@@ -87,6 +98,7 @@ body, html {
           <input type="date" class="form-control" id="date" name="date" value="{{$plan->date}}">
         </div>
         <button type="submit" class="btn btn-primary me-2" id="btnValue">Submit</button>
+          <div id="loader" style="display:none;" style="color:white"></div>
        
       </form>
     </div>
@@ -123,7 +135,7 @@ body, html {
 
   $('#form').on('submit', function(event){
       event.preventDefault();
-    
+     $("#loader").attr("style", "display:block");
      const fd = $('#form').serialize();
     var id = $("#plan_id").val();
      $.ajax({
@@ -139,7 +151,7 @@ body, html {
         
              if(data.status == 1)
             {
-           
+               $("#loader").attr("style", "display:none");
               Swal.fire(
                 'Good job!',
                 'Plan Updated!',
@@ -148,7 +160,7 @@ body, html {
               location.reload();
             }
             if(data.status == 0)
-            {
+            { $("#loader").attr("style", "display:none");
               toastr["error"](data.message, "Error");
             }
         },
@@ -180,4 +192,12 @@ body, html {
    
     });
   }); 
+
+  $(document).ready(function() {
+     
+      setTimeout(function () {
+        $(".menu-items").removeClass('active');
+        $(".collapse").removeClass('show');
+       }, 500)
+   });
    </script>   

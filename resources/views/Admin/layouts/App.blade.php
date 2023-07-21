@@ -115,7 +115,7 @@ nav#sidebar {
 
           
           <li class="nav-item menu-items @yield('athletes')">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link"  data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-run"></i>
               </span>
@@ -139,29 +139,33 @@ nav#sidebar {
             </a>
             <div class="collapse" id="basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" @yield('addtherapist') href="{{route('addtherepist')}}">Add Therapist</a></li>
-                <li class="nav-item"> <a class="nav-link" @yield('viewtherapist') href="{{route('view_therapist')}}">View Therapist</a></li>
+                <li class="nav-item"> <a class="nav-link @yield('addtherapist')" href="{{route('addtherepist')}}">Add Therapist</a></li>
+                <li class="nav-item"> <a class="nav-link @yield('viewtherapist')" href="{{route('view_therapist')}}">View Therapist</a></li>
             
               </ul>
             </div>
           </li>
 
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#basic" aria-expanded="false" aria-controls="ui-basic">
+
+          
+          <li class="nav-item menu-items  @yield('notification')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#basic7" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
-                <i class="mdi mdi-bell"></i>
+              <i class="mdi mdi-bell"></i>
               </span>
               <span class="menu-title">Manage Notification</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="basic">
+            <div class="collapse" id="basic7">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{url('Admin/notification')}}">Add Notification</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{url('Admin/view_notification')}}">View Notification</a></li>
+              <li class="nav-item"> <a class="nav-link @yield('add_notification')" href="{{route('add_notification')}}">Add Notification</a></li>
+              <li class="nav-item"> <a class="nav-link @yield('view_notification')" href="{{route('view_notification')}}">View Notification</a></li>
             
               </ul>
             </div>
           </li>
+
+
           <li class="nav-item menu-items  @yield('questions')">
             <a class="nav-link" data-bs-toggle="collapse" href="#asic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
@@ -222,8 +226,8 @@ nav#sidebar {
             </a>
             <div class="collapse" id="c">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{url('Admin/sports')}}">Add Sports</a></li>
-                <li class="nav-item"> <a class="nav-link @yield('viewsport')" href="{{url('Admin/viewsports')}}">View Sports</a></li>
+                <li class="nav-item"> <a class="nav-link {{ (request()->is('Admin/sports')) ? 'activeassa' : '' }}" href="{{url('Admin/sports')}}">Add Sports</a></li>
+                <li class="nav-item"> <a class="nav-link {{ (request()->is('Admin/viewsports')) ? 'active' : '' }}" href="{{url('Admin/viewsports')}}">View Sports</a></li>
               
               </ul>
             </div>
@@ -320,7 +324,7 @@ nav#sidebar {
       <script src="{{asset('/public/assets/vendors/jvectormap/jquery-jvectormap.min.js')}}"></script>
       <script src="{{asset('/public/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
       <script src="{{asset('/public/assets/vendors/owl-carousel-2/owl.carousel.min.js')}}"></script>
-      <script src="{{asset('/public/assets/js/jquery.cookie.js" type="text/javascript')}}"></script>
+      <script src="{{asset('/public/assets/js/jquery.cookie.js')}}" type="text/javascript')}}"></script>
       <!-- End plugin js for this page -->
       <!-- inject:js -->
       <script src="{{asset('/public/assets/js/off-canvas.js')}}"></script>
@@ -338,7 +342,76 @@ nav#sidebar {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+<script>
+  
+//   $( document ).ready(function() {
 
+//     closeAllDropdowns();
+ 
+//   const dropdownLinks = document.querySelectorAll('.nav-link');
+
+//    dropdownLinks.forEach(link => {
+//   link.addEventListener('click', function(event) {
+  
+//     const dropdownMenu = this.nextElementSibling;
+//     console.log(dropdownMenu);
+  
+//     const isOpen = dropdownMenu.classList.contains('show');
+  
+    
+//     // Close all dropdown menus
+//     closeAllDropdowns();
+
+//     // Open the clicked dropdown menu if it was closed
+//     if (!isOpen) {
+     
+//       dropdownMenu.classList.add('show');
+//     }
+//   });
+// });
+
+// // Function to close all dropdown menus
+// function closeAllDropdowns() {
+//   const dropdownMenus = document.querySelectorAll('.collapse.show');
+ 
+//   dropdownMenus.forEach(menu => {
+//     menu.classList.remove('show');
+//   });
+// }
+// });
+// $(document).ready(function() {
+// var segment = '{{ Request::segment(3) }}';
+//   // alert(segment) ;
+//     if (!isNaN(segment)) {
+//       // Close all dropdown menu items
+//       $('.nav-item .collapse').removeClass('show');
+//      // $('.nav-item .collapse').removeClass('menu-open active');
+//     } 
+// });
+$(document).ready(function() {
+  var currentUrl = window.location.href;
+  
+  $('.nav-link').removeClass('active'); // Remove "active" class from all navigation links
+
+  $('.nav-link').each(function() {
+    var linkUrl = $(this).attr('href');
+    
+    if (currentUrl.indexOf(linkUrl) !== -1) {
+      $(this).addClass('active');
+      $(this).closest('.nav-item').find('.collapse').addClass('show');
+    }
+  });
+  $('.nav-link').click(function() {
+    // Close other dropdown menu items
+
+      $('.nav-item').not($(this).closest('.nav-item')).find('.collapse').removeClass('show');
+
+    
+  });
+});
+  
+</script>
+    
       <!-- End custom js for this page -->
       @yield('main_script')
     </body>

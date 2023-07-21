@@ -63,6 +63,17 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+#loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3) url("{{ url('public/assets/images/Spin-1.4s-78px.gif') }}") no-repeat center center;
+        z-index: 10000;
+    }
 
     </style>
 @section('main_section')
@@ -102,6 +113,7 @@
         <div class="loader" style="display: none"></div>
         <div class="text-center">
         <button type="submit" class="btn btn-primary w-25">Submit</button>
+        <div id="loader" style="display:none;" style="color:white"></div>  
         </div>
       </form>
     </div>
@@ -124,7 +136,7 @@
       event.preventDefault();
    
      const fd = $('#form').serialize();
-    
+      
      $.ajax({
        type: "POST",
         url: "{{url('Admin/save_support')}}",
@@ -135,12 +147,12 @@
         contentType: false,
            processData: false,
            beforeSend: function() {
-            $(".loader").show();
+           $("#loader").attr("style", "display:block");
            },
            success: function(data) {
            
              if(data.status == 1)
-            {
+            {  $("#loader").attr("style", "display:none");
            
               Swal.fire(
                 'Good job!',
@@ -152,7 +164,7 @@
               
             }
             if(data.status == 0)
-            {
+            { $("#loader").attr("style", "display:none");
               toastr["error"](data.message, "Error");
             }
         },

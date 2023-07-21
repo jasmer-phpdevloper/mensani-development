@@ -3,7 +3,7 @@
    <head>
       {{-- <title>How To Integrate Stripe Payment Gateway In Laravel 8 - Techsolutionstuff</title> --}}
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>      
    </head>
    <style>
@@ -16,13 +16,14 @@
     margin: auto;
     width: 100%;
 }
-   .credit-main {
+   .container {
     width: 100%;
     max-width: 600px;
-    display: flex;
-    height: 100vh;
-    margin: auto;
-    padding: 0px 15px;
+    height: 100%;
+    margin: 20px auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+   
 }
 .form-row.row {
     align-items: baseline;   
@@ -40,14 +41,6 @@ button.btn.btn-primary.btn-lg.btn-block {
     max-width: 200px;
     margin: 0 auto;
     margin-bottom: 15px;
-}
-@media screen and (max-width: 768px) {
-
-   .credit-main {
-   
-    height: auto;
-    padding: 30px 15px;
-   }
 }
 
 
@@ -70,7 +63,6 @@ button.btn.btn-primary.btn-lg.btn-block {
 }
 
 
-
 #loader:before {
    content: "";
     width: 26px;
@@ -83,6 +75,14 @@ button.btn.btn-primary.btn-lg.btn-block {
     border-top-color: #0ba5ff;
     animation: spin 1s linear infinite;
 }
+/* @media screen and (max-width: 768px) {
+
+.container {
+
+ height: auto;
+ padding: 30px 15px;
+}
+} */
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -91,9 +91,7 @@ button.btn.btn-primary.btn-lg.btn-block {
 
    </style>   
    <body>
-      <div class="credit-main">         
-      
-        
+      <div class="container">         
                <div class="panel panel-default credit-card-box">
                   <div class="panel-heading" >
                      <div class="row-btn">
@@ -104,10 +102,12 @@ button.btn.btn-primary.btn-lg.btn-block {
                      @if (Session::has('success'))
                      <div class="alert alert-success text-center">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <p>{{ Session::get('success') }}</p><br>
+                        <p>{{ Session::get('success') }}</p>
                      </div>
                      @endif
-                     <br>
+                   
+
+                   
                      <form role="form" action="{{ route('appointPayment') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
                         @csrf
                         {{-- <div class='form-row row'> --}}
@@ -152,6 +152,7 @@ button.btn.btn-primary.btn-lg.btn-block {
                               <div id="loader" style="display:none;" style="color:white"><h5>Processing payment...</h5></div>
                         </div>
                      </form>
+                      
                   </div>
                </div>
          

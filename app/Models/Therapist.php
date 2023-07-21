@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Therapist extends Authenticatable implements JWTSubject
 {  
     use SoftDeletes;
     use HasFactory;
-    protected $appends = ['image'];
+   
     protected $guard = 'api';
     protected $table = 'therapists';
 
@@ -30,8 +31,30 @@ class Therapist extends Authenticatable implements JWTSubject
 
     public function getImageAttribute($image)
     {   
-       return  $image ?: 'https://img.icons8.com/fluency/48/gender-neutral-user.png';
+        if(!empty($image)){
+            return  $image;  
+        }else{
+            return  'https://img.icons8.com/fluency/48/gender-neutral-user.png';
+        }
+       
+        
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_at = Carbon::now('America/New_York');
+            $model->updated_at = Carbon::now('America/New_York');
+        });
+
+        static::updating(function ($model) {
+            $model->updated_at = Carbon::now('America/New_York');
+        });
+    }
+
+  
 
    
     

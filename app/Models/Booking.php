@@ -9,7 +9,7 @@ class Booking extends Model
 {   
     protected $table = 'booking';
     use HasFactory;
-    protected $appends = ['athlete_name'];
+    protected $appends = ['athlete_name','therapist_name','therapist_image'];
 	
 	public function Therapist()
    {
@@ -23,6 +23,7 @@ class Booking extends Model
 
    public function getAthleteNameAttribute()
    { 
+   // dd($athlete_id);
      $Athlete  = Athlete::where('id',$this->athlete_id)->first();
       if(!empty($Athlete)){
 
@@ -30,6 +31,34 @@ class Booking extends Model
 
       }else{
         return "";
+       }
+      
+   }
+
+   public function getTherapistNameAttribute()
+   { 
+   // dd($athlete_id);
+     $therapist  = Therapist::where('id',$this->therapist_id)->first();
+      if(!empty($therapist)){
+
+        return   $therapist->name;
+
+      }else{
+        return "";
+       }
+      
+   }
+
+   public function getTherapistImageAttribute()
+   { 
+   // dd($athlete_id);
+     $therapist  = Therapist::where('id',$this->therapist_id)->first();
+      if(!empty($therapist)){
+
+        return   $therapist->image;
+
+      }else{
+        return 'https://img.icons8.com/fluency/48/gender-neutral-user.png';
        }
       
    }

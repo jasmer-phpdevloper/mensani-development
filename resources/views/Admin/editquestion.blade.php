@@ -29,6 +29,17 @@
 textarea#answer {
     width: 50%;
 }
+#loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3) url("{{ url('public/assets/images/Spin-1.4s-78px.gif') }}") no-repeat center center;
+        z-index: 10000;
+    }
     </style>
 @section('main_section')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -49,6 +60,7 @@ textarea#answer {
           <textarea class="form-control" id="answer" name="answer" rows="4" cols="40">{{$question->answer}}</textarea>
         </div>
         <button type="submit" class="btn btn-primary me-2">Update</button>
+        <div id="loader" style="display:none;" style="color:white"></div>  
        
       </form>
     </div>
@@ -68,9 +80,10 @@ textarea#answer {
   
   $('#form').on('submit', function(event){
       event.preventDefault();
-    
+     
      const fd = $('#form').serialize();
      var id = $("#question_id").val();
+      $("#loader").attr("style", "display:block");
      $.ajax({
        type: "POST",
         url: "{{url('Admin/updatequestion')}}" + '/' + id,
@@ -84,16 +97,17 @@ textarea#answer {
         
              if(data.status == 1)
             {
-           
+                 $("#loader").attr("style", "display:none")
               Swal.fire(
                 'Good job!',
                 'Question Updated!',
                 'success'
+                 
               )
               location.reload();
             }
             if(data.status == 0)
-            {
+            {   $("#loader").attr("style", "display:none")
               toastr["error"](data.message, "Error");
             }
         },
@@ -125,4 +139,12 @@ textarea#answer {
      
       });
     }); 
+
+    $(document).ready(function() {
+     
+      setTimeout(function () {
+        $(".menu-items").removeClass('active');
+        $(".collapse").removeClass('show');
+       }, 500)
+   });
      </script>   

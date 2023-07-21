@@ -1,6 +1,7 @@
 @extends('Admin.layouts.App')
+
 @section('view_notification','menu-open')
-{{-- @section('dashboard_active','active') --}}
+
 <style>
    nav#sidebar {
       width: 20% !important;

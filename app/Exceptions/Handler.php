@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
            } elseif ($guard === 'web') {
             return redirect()->route('admin_login')->with('message', 'Your session has expired. Please log in again.');
            }
-          
+         
         }
 
      return parent::render($request, $exception);

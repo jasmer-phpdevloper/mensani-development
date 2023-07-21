@@ -29,7 +29,8 @@ Route::post('verify_otp',[ApiAthleteController::class,'verify_otp']);
 Route::post('reset_password',[ApiAthleteController::class,'reset_password']);  
 });
 Route::group(['prefix' => 'Athlete','middleware' => ['jwt.verify']], function () {    
-  
+
+Route::post('delete_athlete_account',[ApiAthleteController::class,'delete_athlete_account']);   
 Route::post('logout',[ApiAthleteController::class,'logout']);
 Route::post('edit_profile',[ApiAthleteController::class,'edit_profile']);
 Route::post('view_notification',[ApiAthleteController::class,'view_notification']);

@@ -136,7 +136,7 @@ div#Table_ID_paginate a {
            
               <td> {{$i}} </td>
             
-              <td> {{$value->athlete['name']}} </td>
+              <td>@if(!empty($value->athlete['name'])) {{$value->athlete['name']}} @else <h5 style="color:red"> anonymous user</h5> @endif</td>
               <td> {{$value->amount}} </td>
               <td> {{$value->created_at}}</td>
            

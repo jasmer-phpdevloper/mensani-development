@@ -314,6 +314,49 @@ nav#sidebar {
 
     
 </script>
+<script>
+
+$( document ).ready(function() {
+
+closeAllDropdowns();
+  // Get all the dropdown links
+  const dropdownLinks = document.querySelectorAll('.nav-link');
+
+  // Add click event listener to each dropdown link
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      // Prevent the default link behavior
+      
+   
+      // Get the corresponding dropdown menu
+      const dropdownMenu = this.nextElementSibling;
+
+      // Check if the clicked dropdown menu is already open
+      const isOpen = dropdownMenu.classList.contains('show');
+
+      // Close all dropdown menus
+      closeAllDropdowns();
+
+      // Open the clicked dropdown menu if it was closed
+      if (!isOpen) {
+       
+        dropdownMenu.classList.add('show');
+      }
+    });
+  });
+
+  // Function to close all dropdown menus
+  function closeAllDropdowns() {
+    const dropdownMenus = document.querySelectorAll('.collapse.show');
+   
+    dropdownMenus.forEach(menu => {
+      menu.classList.remove('show');
+    });
+  }
+
+});
+</script>
+    
 
       <!-- End custom js for this page -->
       @yield('main_script')

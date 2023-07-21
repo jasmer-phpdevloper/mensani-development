@@ -56,6 +56,18 @@ body, html {
   position: relative;
   z-index: 2;
 }
+#loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.3) url('{{url("public/assets/images/Spin-1.4s-78px.gif")}}') no-repeat center center;
+  z-index: 10000;
+}
+
 
   </style>
 @section('main_section')
@@ -68,21 +80,29 @@ body, html {
       <form class="forms-sample" id="form">
         @csrf
         <input type="hidden" class="form-control" name="id" value="{{$therapists->id}}" >
+    <div class="row">
+      <div class="col-md-6">
         <div class="form-group">
           <label for="exampleInputName1">First name <span style="color:red;">*</span></label>
           <input type="text" class="form-control" name="first_name" value="{{old('first_name',$therapists->first_name)}}" placeholder="Enter First Name">
         </div>
+      </div>
+      <div class="col-md-6">
         <div class="form-group">
           <label for="exampleInputName1">Last name <span style="color:red;">*</span></label>
           <input type="text" class="form-control"  name="last_name" value="{{old('last_name',$therapists->last_name)}}" placeholder="Enter Last Name">
         </div>
+       </div> 
+        <div class="col-md-6">
         <div class="form-group">
           <label for="exampleInputName1">Image </label>
           <input type="file" class="form-control" id="image" name="image" accept="image/png, image/gif, image/jpeg" >
         </div>
         <input type="hidden"  id="image" name="oldthumbnail" value="{{$therapists->image}}">
         <img class="mb-4" src="{{$therapists->image}}" onerror="this.onerror=null;this.src='{{asset('public/assets/images/faces/face15.jpg')}}'" style="height:50px;width:50px;">
-        
+        </div> 
+       
+        <div class="col-md-6">
         <div class="form-group">
           <label for="exampleInputName1">Gender <span style="color:red;">*</span></label><br>
           Male  
@@ -90,23 +110,42 @@ body, html {
           Female 
           <input type="radio"  name="gender" value="female"{{ (old('gender',$therapists->gender) == 'female') ? 'checked' : ''}}><br>
         </div> 
-
+        </div>
+       
+        <div class="col-md-6">
         <div class="form-group" style="pointer-events:none;" >
           <label for="exampleInputName1">Email <span style="color:red;">*</span></label>
           <input type="email"  class="form-control" value="{{old('email',$therapists->email)}}" name="email" placeholder="Enter Email">
         </div>
+        </div> 
+        <div class="col-md-6">
+        <div class="form-group">
+         <label for="exampleInputName1">Password </label>
+          <input type="password" class="form-control" id="password-field"   value="{{old('password')}}" name="password" placeholder="Enter password">
+          <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password">
+        </div>
+         </div>
+       <div class="col-md-6">   
         <div class="form-group">
           <label for="exampleInputName1">Phone <span style="color:red;">*</span></label>
           <input type="tel" class="form-control" value="{{old('phone',$therapists->phone)}}" name="phone" placeholder="Enter phone">
         </div>
-        <div class="form-group">
-        
-          <label for="exampleInputName1">Password </label>
-          <input type="password" class="form-control" id="password-field"   value="{{old('password')}}" name="password" placeholder="Enter password">
-          <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password">
         </div>
+
+        <div class="col-md-6">   
+        <div class="form-group">
+          <label for="exampleInputName1">Mensani level </label><br>
+          Pro User 
+          <input type="checkbox"  name="pro_user" value="1" @if($therapists->pro_user == 1) checked @else @endif>
+         
+        </div> 
+        </div>
+        </div>
+    
        
         <div class="secondrow">
+         <div class="row"> 
+        <div class="col-md-6">   
           <div class="form-group">
                    <label for="">Country <span style="color:red;">*</span></label>
                    <select class="form-control" name="country"  id="country-dd">
@@ -116,7 +155,9 @@ body, html {
                      @endforeach
                    </select>
           </div>   
-          <div class="form-group">
+        </div>
+        <div class="col-md-6">   
+        <div class="form-group">
             <label for="">State</label>
             <select id="state-dd" class="form-control" name="state">
               @foreach($states as $state)
@@ -124,8 +165,17 @@ body, html {
               @endforeach
             </select>
         </div>
+         </div>
+          </div>
+       </div>
+          
         
-        <div class="secondrow">
+          
+
+
+      
+          <div class="row"> 
+           <div class="col-md-4">   
           <div class="form-group">
                    <label for="">Sports <span style="color:red;">*</span></label>
                    <select class="form-control" name="sport" >
@@ -135,12 +185,15 @@ body, html {
                      @endforeach
                    </select>
           </div> 
+           </div> 
         
-        
+         <div class="col-md-4">  
         <div class="form-group">
           <label for="exampleInputName1">Hourly rate</label>
           <input type="number" min="1" class="form-control" name="hourly_rate" value="{{old('hourly_rate',$therapists->hourly_rate)}}" placeholder="$">
         </div>
+         </div>
+           <div class="col-md-4">  
         <div class="form-group">
           <label for="exampleInputName1">Experience <span style="color:red;">*</span></label>
           <select class="form-control" name="experience" >
@@ -155,23 +208,25 @@ body, html {
                  </select>
         
         </div>
+         </div>
+        <div class="col-md-6">  
         <div class="form-group">
           <label for="exampleInputName1">License <span style="color:red;">*</span></label>
           <input type="text"  class="form-control" name="license" value="{{old('license',$therapists->license)}}" placeholder="Enter License">
         </div>
+          </div>
+           <div class="col-md-6">
         <div class="form-group">
           <label for="exampleInputName1">Degree <span style="color:red;">*</span></label>
           <input type="text"  class="form-control" name="degree" value="{{old('degree',$therapists->degree)}}" placeholder="Enter Degree Name">
         </div>
-        <div class="form-group">
-          <label for="exampleInputName1">Mensani level </label><br>
-          Pro User 
-          <input type="checkbox"  name="pro_user" value="1" @if($therapists->pro_user == 1) checked @else @endif>
-         
-        </div> 
+         </div>
+          </div>
+       
         
         <div class="sub-btn text-center">
         <button type="submit" class="btn btn-primary w-25" id="btnValue">Update</button>
+        <div id="loader" style="display:none;" style="color:white"></div>  
         </div>
       </form>
     </div>
@@ -195,6 +250,7 @@ body, html {
 
   $('#form').on('submit', function(event){
       event.preventDefault();
+      $("#loader").attr("style", "display:block") 
     
      const fd = $('#form').serialize();
     
@@ -211,6 +267,7 @@ body, html {
            
              if(data.status == 1)
             {
+              $("#loader").attr("style", "display:none") 
              swal.fire({
               title: "Data updated!",
               text: "Therapist Updated Successfully!",
@@ -222,7 +279,8 @@ body, html {
               
             }
             if(data.status == 0)
-            {  toastr.clear(); 
+            {  $("#loader").attr("style", "display:none") 
+               toastr.clear(); 
               toastr["error"](data.message, "Error");
             }
         },
@@ -268,6 +326,16 @@ body, html {
           }
           });
          });
+
+         $(document).ready(function() {
+     
+      setTimeout(function () {
+        $(".menu-items").removeClass('active');
+        $(".collapse").removeClass('show');
+       }, 500)
+   });
+
+
     </script>
 
     

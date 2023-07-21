@@ -41,6 +41,19 @@ label {
   #inactive{
     border: none;color: red;font-size: 22px;
   }
+  #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3) url("{{ url('public/assets/images/Spin-1.4s-78px.gif') }}") no-repeat center center;
+        z-index: 10000;
+    }
+
+  
   
     </style>
 @section('main_section')
@@ -60,6 +73,7 @@ label {
         <input type="hidden"  id="sport_id" name="sport_id" value="{{$sport->id}}">
        
         <button type="submit" class="btn btn-primary me-2">Update</button>
+        <div id="loader" style="display:none;" style="color:white"></div>
        
       </form>
     </div>
@@ -79,7 +93,7 @@ label {
 
   $('#form').on('submit', function(event){
       event.preventDefault();
-    
+      $("#loader").attr("style", "display:block");
      const fd = $('#form').serialize();
     var id = $("#sport_id").val();
      $.ajax({
@@ -95,7 +109,7 @@ label {
         
              if(data.status == 1)
             {
-           
+                $("#loader").attr("style", "display:none");
               Swal.fire(
                 'Good job!',
                 'Sports Updated!',
@@ -104,7 +118,8 @@ label {
               location.reload();
             }
             if(data.status == 0)
-            {
+            { 
+              $("#loader").attr("style", "display:none");
               toastr["error"](data.message, "Error");
             }
         },
@@ -136,5 +151,21 @@ label {
  
   });
 }); 
+
+$(document).ready(function() {
+      // Restrict input to alphabetic characters
+      $('#sport').on('input', function() {
+        var sanitizedInput = $(this).val().replace(/[^a-zA-Z]/g, '');
+        $(this).val(sanitizedInput);
+      });
+    });
+
+      $(document).ready(function() {
+     
+      setTimeout(function () {
+        $(".menu-items").removeClass('active');
+        $(".collapse").removeClass('show');
+       }, 500)
+   });
  </script>   
 
